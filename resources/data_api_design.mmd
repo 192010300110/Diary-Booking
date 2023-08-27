@@ -1,0 +1,52 @@
+classDiagram
+    class Appointment{
+        +int id
+        +str patient_name
+        +str date
+        +str time
+        +str status
+        +str notes
+        +str __str__()
+        +str __repr__()
+    }
+    class Database{
+        +str db_file
+        +Connection connection
+        +Cursor cursor
+        +None __init__(db_file: str)
+        +None create_tables()
+        +List[Appointment] get_appointments()
+        +Appointment get_appointment(appointment_id: int)
+        +None add_appointment(appointment: Appointment)
+        +None update_appointment(appointment: Appointment)
+        +None delete_appointment(appointment_id: int)
+    }
+    class SMS{
+        +str account_sid
+        +str auth_token
+        +str from_number
+        +None __init__(account_sid: str, auth_token: str, from_number: str)
+        +None send_sms(to_number: str, message: str)
+    }
+    class Call{
+        +str account_sid
+        +str auth_token
+        +str from_number
+        +None __init__(account_sid: str, auth_token: str, from_number: str)
+        +None make_call(to_number: str, message: str)
+    }
+    class CLI{
+        +Database database
+        +SMS sms
+        +Call call
+        +None __init__(database: Database, sms: SMS, call: Call)
+        +None schedule_appointment()
+        +None view_appointments()
+        +None manage_appointments()
+        +None exit()
+        +None run()
+    }
+    Appointment "1" -- "1" Database: belongs to
+    CLI "1" -- "1" Database: uses
+    CLI "1" -- "1" SMS: uses
+    CLI "1" -- "1" Call: uses
